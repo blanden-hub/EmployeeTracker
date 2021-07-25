@@ -3,7 +3,7 @@ const connection = require("./connection.js")
 require("console.table")
 start();
 
-const answer = {};
+//const answer = ["ADD", "UPDATE", "VIEW", "EXIT"];
 
 function start() {
     inquirer.prompt({
