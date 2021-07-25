@@ -1,36 +1,27 @@
-const mysql2 = require("mysql2");
 const inquirer = require("inquirer");
+const connection = require("./connection.js")
+require("console.table")
+start();
 
-
-const connection = mysql2.createConnection({
-    host: "localhost",
-    port: "3001",
-    user: "root",
-    password: "password",
-    database: "employee_DB",
-});
-
-connection.connect(function (err) {
-    if (err) throw err;
-    start();
-});
+const answer = {};
 
 function start() {
     inquirer.prompt({
             name: "add view update",
             type: "list",
-            message: "Would you like to add, update, or view?",
+            message: "would you like to add, update, or view?",
             choices: ["ADD", "UPDATE", "VIEW", "EXIT"]
         })
         .then(function (answer) {
             if (answer.addViewUpdate === "ADD") {
+                console.log('hi');
                 add();
             } else if (answer.addViewUpdate === "UPDATE") {
                 update();
             } else if (answer.addViewUpdate === "VIEW") {
                 view();
             } else {
-                connection.end();
+                //connection.end();
             }
         })
 }
@@ -39,7 +30,7 @@ function add() {
     inquirer.prompt([{
             name: "view",
             type: "list",
-            message: "What would you like to add?",
+            message: "what would you like to add?",
             choices: ["Employee", "Department", "Role"]
         }])
         .then(function (answer) {
@@ -47,22 +38,22 @@ function add() {
                 inquirer.prompt([{
                         name: "firstName",
                         type: "input",
-                        message: "What is the employees first name?"
+                        message: "what is the employees first name?"
                     },
                     {
                         name: "lastName",
                         type: "input",
-                        message: "What is the employees last name?"
+                        message: "what is the employees last name?"
                     },
                     {
                         name: "roleId",
                         type: "input",
-                        message: "What is the employees role id?"
+                        message: "what is the employees role id?"
                     },
                     {
                         name: "managerId",
                         type: "input",
-                        message: "What is the employees manager id?"
+                        message: "what is the employees manager id?"
                     }
                 ]).then(function (answer) {
                     connection.query(
@@ -74,7 +65,7 @@ function add() {
                         },
                         function (err) {
                             if (err) throw err;
-                            console.log("Employee created sucessfully!");
+                            console.log("employee created sucessfully!");
                             start();
                         }
                     )
@@ -148,11 +139,11 @@ function view() {
         });
 }
 
-function printTable(data) {
-    const query = "SELECT * FROM " + data;
-    connection.query(query, function (err, res) {
-        if (err) throw err;
-        console.table(res);
-        start();
-    });
-}
+// function printTable(data) {
+//     const query = "SELECT * FROM " + data;
+//     connection.query(query, function (err, res) {
+//         if (err) throw err;
+//         console.table(res);
+//         start();
+//     });
+// }
